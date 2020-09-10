@@ -1,0 +1,33 @@
+{
+  "name": "psw4",
+  "version": "1.0.0",
+  "description": "PSw4 es un bot en español para discord.",
+  "main": "main.js",
+  "dependencies": {
+    "discord.js": "12.3.1",
+    "file-type": "^14.6.2",
+    "moment": "^2.27.0",
+    "opusscript": "0.0.7",
+    "request": "^2.88.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CharizardFire58/PSw4.git"
+  },
+  "keywords": [
+    "PSw4",
+    "discord-bot",
+    "discordjs"
+  ],
+  "author": "Chari69",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CharizardFire58/PSw4/issues"
+  },
+  "homepage": "https://github.com/CharizardFire58/PSw4#readme"
+}

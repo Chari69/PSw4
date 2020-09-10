@@ -1,0 +1,10 @@
+config.json
+package-lock.json
+
+/node_modules/
+
+main.log
+error.log
+
+ffmpeg.exe
+start.bat
