@@ -53,6 +53,8 @@ module.exports = (client) => {
 
             const voz = message.member.voice.channel;
 
+            message.reply("🔊 Reproduciendo audio...");
+
             const conexion = await voz.join();
             const reproductor = conexion.play(fs.createReadStream(audio));
 
