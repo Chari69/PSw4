@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
             break;
 
         case 'mesiencara':
-            client.playAudio('./media/audio/messi.m4a', message);
+            client.playAudio('./media/audio/messi.ogg', message);
             break;
 
         // Solo el dueño del bot puede detener un audio
