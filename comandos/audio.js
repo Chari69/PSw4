@@ -10,6 +10,10 @@ exports.run = async (client, message, args) => {
             client.playAudio('./media/audio/sousa.mpeg', message);
             break;
 
+        case 'mesiencara':
+            client.playAudio('./media/audio/messi.m4a', message);
+            break;
+
         // Solo el dueño del bot puede detener un audio
         case 'stop':
             if (message.author.id !== botowner) return message.reply('no tienes el permiso para hacer esto.');
