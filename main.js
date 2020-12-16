@@ -41,4 +41,6 @@ const psw4 = async () => {
 };
 
 // iniciar PSw4
-psw4().catch(error => { throw new Error(error); });
+psw4().catch(error => {
+    throw new Error(error);
+});
