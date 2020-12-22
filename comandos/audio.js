@@ -24,6 +24,4 @@ exports.run = async (client, message, args) => {
         default:
             message.reply('especifica que audio quieres que reproduzca.');
     }
-
-
 }
