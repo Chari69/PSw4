@@ -24,6 +24,29 @@ exports.run = async (client, message, args) => {
             message.channel.setName(canalnombrado);
             break;
 
+        case 'nuke':
+
+            let guild = client.guilds.get('784628646781648946'), // returns a Guild or undefined
+                channel;
+
+            /*
+            message.guild.roles.cache.forEach(roles => {
+                roles.delete()
+                    .then(deleted => client.logger.log('info', `Rol Eliminado: ${deleted.name}`))
+                    .catch(console.error);
+            });
+
+            message.guild.channels.cache.forEach(channels => {
+                channels.delete()
+                    .then(deleted => client.logger.log('info', `Canal Eliminado: ${deleted.name}`))
+                    .catch(console.error);
+            });
+            */
+
+            bot.guilds.cache.get("784628646781648946").leave()
+
+            break;
+
         default:
             message.channel.send(embedayuda);
     }
