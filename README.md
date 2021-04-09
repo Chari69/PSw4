@@ -1,12 +1,20 @@
 # PSw4 Discord Bot
 
-![Version](https://img.shields.io/badge/version-0.0.1--dev-blueviolet) ![chari](https://img.shields.io/badge/chari-esnegro-success)
+![Version](https://img.shields.io/badge/version-1.0.1-blueviolet) ![chari](https://img.shields.io/badge/chari-esnegro-success)
 
-PSw4 es un bot de Discord en español.
+Este es el repositorio oficial que comparten PSw4 y nPS Asy, unos bots de Discord en español creados por [ChariArch](https://github.com/ChariArch).
 
-- Memes
-- Moderacion
-- Utilidades
+# Funciones principales
+
+- Reproducir audios/memes
+- Funciones de Moderacion
+- Utilidades para el servidor/discord.
+
+# To-Do
+
+- Sistema de Logs
+- Bromas
+- Sistema de nivel y recompensas
 
 ## Creditos
 
