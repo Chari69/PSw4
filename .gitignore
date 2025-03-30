@@ -1,0 +1,7 @@
+/.vscode/
+/node_modules/
+.env
+config.json
+package-lock.json
+test.ts 
+*.webm

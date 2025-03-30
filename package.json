@@ -1,0 +1,41 @@
+{
+	"name": "psw4",
+	"version": "2.0.0",
+	"description": "PSw4 Rewrite",
+	"main": "main.js",
+	"scripts": {
+		"start": "tsx main.ts",
+		"test": "node ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Chari69/PSw4.git"
+	},
+	"keywords": [
+		"discord-bot"
+	],
+	"type": "module",
+	"author": "Chari69",
+	"license": "UNLICENCED",
+	"bugs": {
+		"url": "https://github.com/Chari69/PSw4/issues"
+	},
+	"homepage": "https://github.com/Chari69/PSw4#readme",
+	"private": true,
+	"dependencies": {
+		"@discordjs/voice": "^0.18.0",
+		"@sapphire/framework": "^5.3.2",
+		"@sapphire/plugin-subcommands": "^7.0.1",
+		"@sapphire/utilities": "^3.18.2",
+		"discord.js": "^14.18.0",
+		"dotenv": "^16.4.7",
+		"googleapis": "^148.0.0",
+		"lodash": "^4.17.21",
+		"lodash-es": "^4.17.21",
+		"openai": "^4.89.0",
+		"youtube-dl-exec": "^3.0.20"
+	},
+	"devDependencies": {
+		"ts-node": "^10.9.2"
+	}
+}
