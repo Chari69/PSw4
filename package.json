@@ -27,6 +27,7 @@
 		"@sapphire/framework": "^5.3.2",
 		"@sapphire/plugin-subcommands": "^7.0.1",
 		"@sapphire/utilities": "^3.18.2",
+		"booru": "^2.7.0",
 		"discord.js": "^14.18.0",
 		"dotenv": "^16.4.7",
 		"googleapis": "^148.0.0",
