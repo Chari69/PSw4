@@ -68,3 +68,27 @@ export async function getAllPlaylistVideos(playlistId: string) {
 		return [];
 	}
 }
+
+/**
+ * Parse
+ * @param link Youtube URL
+ * @param type Type of youtube link to eval (video or playlist)
+ * @returns Parsed YouTube link
+ */
+export function ytLinkParse(link: string, type: "video" | "playlist"): string {
+	if (!link.includes("youtube.com")) {
+		return "#invalid";
+	}
+
+	if (link.includes("&") || (link.includes("watch?v=") && type === "video")) {
+		link = link.split("&", 1)[0];
+		return link;
+	}
+
+	if (link.includes("playlist?list=") && type === "playlist") {
+		link = link.split("&", 1)[0].split("playlist?list=", 2)[1];
+		return link;
+	}
+
+	return "#invalid";
+}

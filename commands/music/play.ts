@@ -4,6 +4,7 @@ import { isMessageInstance } from "@sapphire/discord.js-utilities";
 import { MessageFlags, Message, TextChannel } from "discord.js";
 import * as Music from "../../modules/music";
 import * as Utils from "../../modules/utils";
+import * as YT from "../../modules/yt";
 
 export class MusicPlayCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -54,7 +55,7 @@ export class MusicPlayCommand extends Subcommand {
 			return interaction.editReply("No estas en un canal de voz.");
 		}
 
-		url = Utils.ytLinkParse(url, "video");
+		url = YT.ytLinkParse(url, "video");
 		if (url === "#invalid") return msg.edit("URL invalida.");
 
 		// Fetch the channel and ensure it's a text-based channel
@@ -84,7 +85,7 @@ export class MusicPlayCommand extends Subcommand {
 			return interaction.editReply("No estas en un canal de voz.");
 		}
 
-		url = Utils.ytLinkParse(url, "playlist");
+		url = YT.ytLinkParse(url, "playlist");
 		if (url === "#invalid") return msg.edit("URL invalida.");
 
 		// Fetch the channel and ensure it's a text-based channel

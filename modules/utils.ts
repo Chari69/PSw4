@@ -2,6 +2,8 @@ import { ActivityType } from "discord.js";
 import { SapphireClient } from "@sapphire/framework";
 import { readdir, unlink } from "fs/promises";
 
+import * as Booru from "booru";
+
 import _ from "lodash-es";
 import path from "path";
 import quotes from "../quotes.json";
@@ -62,30 +64,6 @@ export function shuffArrNoFI(arr: any[]): any[] {
 	return arr;
 }
 
-/**
- * Parse
- * @param link Youtube URL
- * @param type Type of youtube link to eval (video or playlist)
- * @returns Parsed YouTube link
- */
-export function ytLinkParse(link: string, type: "video" | "playlist"): string {
-	if (!link.includes("youtube.com")) {
-		return "#invalid";
-	}
-
-	if (link.includes("&") || (link.includes("watch?v=") && type === "video")) {
-		link = link.split("&", 1)[0];
-		return link;
-	}
-
-	if (link.includes("playlist?list=") && type === "playlist") {
-		link = link.split("&", 1)[0].split("playlist?list=", 2)[1];
-		return link;
-	}
-
-	return "#invalid";
-}
-
 function getRandomQuote(client: SapphireClient) {
 	const randomIndex = Math.floor(Math.random() * quotes.length);
 	const quote = quotes[randomIndex];
@@ -112,4 +90,38 @@ export async function deleteAllFilesInSongsFolder(client: SapphireClient) {
 	} catch (error) {
 		client.logger.error("Error deleting files in the songs folder:", error);
 	}
+}
+
+export async function booruSearch(site: string, tags: string[]) {
+	return Booru.search(site, tags, { limit: 1, random: true }).then((posts) => {
+		if (posts.length > 0) {
+			const post = posts[0];
+			let rating = post.rating;
+
+			site == "r34" ? (site = "Rule 34") : (site = "Safebooru");
+
+			if (rating == "e") {
+				rating = "explicit";
+			} else if (rating == "s") {
+				rating = "safe";
+			} else if (rating == "q") {
+				rating = "questionable";
+			} else {
+				rating = "unrated";
+			}
+
+			const object = {
+				title: site,
+				url: post.postView,
+				image: post.fileUrl,
+				tags: `Tags: ${post.tags.join(", ")}`,
+				rating: rating,
+			};
+
+			return object;
+		} else {
+			console.log("No posts found");
+			return "no posts found";
+		}
+	});
 }
