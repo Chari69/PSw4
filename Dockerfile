@@ -15,6 +15,4 @@ RUN npm install tsx -g
 
 COPY . .
 
-RUN chmod +x run.sh
-
-CMD ["./run.sh"]
+CMD ["tsx", "main.ts"]
