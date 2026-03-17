@@ -23,18 +23,20 @@
 	"homepage": "https://github.com/Chari69/PSw4#readme",
 	"private": true,
 	"dependencies": {
-		"@discordjs/voice": "^0.18.0",
+		"@discordjs/opus": "^0.10.0",
+		"@discordjs/voice": "^0.19.1",
 		"@sapphire/framework": "^5.3.2",
 		"@sapphire/plugin-subcommands": "^7.0.1",
 		"@sapphire/utilities": "^3.18.2",
 		"booru": "^2.7.0",
-		"discord.js": "^14.18.0",
+		"discord.js": "^14.25.1",
 		"dotenv": "^16.4.7",
 		"googleapis": "^148.0.0",
+		"libsodium-wrappers": "^0.8.2",
 		"lodash": "^4.17.21",
 		"lodash-es": "^4.17.21",
 		"openai": "^4.89.0",
-		"youtube-dl-exec": "^3.0.20"
+		"sodium-native": "^5.1.0"
 	},
 	"devDependencies": {
 		"ts-node": "^10.9.2"

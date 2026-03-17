@@ -80,18 +80,6 @@ export async function rollQuote(minutes: number, client: SapphireClient) {
 	}, minutes);
 }
 
-export async function deleteAllFilesInSongsFolder(client: SapphireClient) {
-	const songsFolder = path.join("./songs");
-	try {
-		const files = await readdir(songsFolder);
-		const deletePromises = files.map((file) => unlink(path.join(songsFolder, file)));
-		await Promise.all(deletePromises);
-		client.logger.info("All files in the songs folder have been deleted.");
-	} catch (error) {
-		client.logger.error("Error deleting files in the songs folder:", error);
-	}
-}
-
 export async function booruSearch(site: string, tags: string[]) {
 	return Booru.search(site, tags, { limit: 1, random: true }).then((posts) => {
 		if (posts.length > 0) {

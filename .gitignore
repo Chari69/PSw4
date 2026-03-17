@@ -6,3 +6,4 @@ config.json
 package-lock.json
 test.ts 
 *.webm
+cookies.txt

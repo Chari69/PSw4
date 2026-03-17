@@ -4,7 +4,7 @@ import { GatewayIntentBits } from "discord.js";
 import { execSync } from "child_process";
 import * as Utils from "./modules/utils";
 
-const version = execSync("git rev-parse HEAD").toString().trim().slice(0, 7);
+//const version = execSync("git rev-parse HEAD").toString().trim().slice(0, 7);
 
 const client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildVoiceStates],
@@ -14,9 +14,7 @@ const client = new SapphireClient({
 client.on("ready", () => {
 	client.logger.info("Sesion Iniciada Correctamente.");
 	Utils.rollQuote(30, client);
-	client.logger.info("Version: " + version);
+	//client.logger.info("Version: " + version);
 });
-
-Utils.deleteAllFilesInSongsFolder(client);
 
 client.login(process.env.BOT_TOKEN);
