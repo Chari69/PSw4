@@ -15,7 +15,6 @@ RUN npm install tsx -g
 
 COPY . .
 
-RUN chmod +x decrypt.sh && \
-    ./decrypt.sh
+RUN chmod +x run.sh
 
-CMD ["tsx", "main.ts"]
+CMD ["./run.sh"]
