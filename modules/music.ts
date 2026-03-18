@@ -55,7 +55,7 @@ async function executeYtDlp(args: string[]): Promise<string> {
  */
 async function getVideoTitle(url: string): Promise<string> {
 	try {
-		return await executeYtDlp(["--print", "title", url]);
+		return await executeYtDlp(["--cookies", "./enc/cookies.txt", "--print", "title", url]);
 	} catch (error) {
 		console.error("Error al obtener título:", error);
 		throw new Error("Error al obtener título");
@@ -70,7 +70,7 @@ async function getVideoTitle(url: string): Promise<string> {
  */
 async function getVideoSeconds(url: string): Promise<string> {
 	try {
-		return await executeYtDlp(["--print", "duration_string", url]);
+		return await executeYtDlp(["--cookies", "./enc/cookies.txt", "--print", "duration_string", url]);
 	} catch (error) {
 		console.error("Error al obtener duración:", error);
 		throw new Error("Error al obtener duración");

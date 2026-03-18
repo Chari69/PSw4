@@ -6,7 +6,7 @@ import * as Booru from "booru";
 
 import _ from "lodash-es";
 import path from "path";
-import quotes from "../quotes.json";
+import quotes from "../quotes.json" with { type: "json" };
 
 export function timeToSeconds(time: string | null): number {
 	if (!time) {
