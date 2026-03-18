@@ -35,7 +35,7 @@ export async function getFirstVideoLink(searchQuery: string): Promise<string> {
 }
 
 export async function getAllPlaylistVideos(playlistId: string) {
-	const videos: { title: string; url: string }[] = [];
+	const videos: { title: string; url: string; duration: string }[] = [];
 	let nextPageToken: string | undefined = undefined;
 
 	try {
@@ -55,6 +55,7 @@ export async function getAllPlaylistVideos(playlistId: string) {
 					videos.push({
 						title: item.snippet.title || "Untitled",
 						url: `https://youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
+						duration: item.snippet.duration,
 					});
 				}
 			});

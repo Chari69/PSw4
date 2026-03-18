@@ -16,7 +16,7 @@ export async function askAI(arg: string) {
 			{ role: "system", content: system },
 			{ role: "user", content: arg },
 		],
-		max_completion_tokens: 512,
+		max_completion_tokens: 1024,
 	});
 
 	return stream;

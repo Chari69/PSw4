@@ -77,9 +77,12 @@ async function getVideoSeconds(url: string): Promise<string> {
 	}
 }
 
-export async function addToQueue(url: string, title: string | null = null): Promise<string> {
+export async function addToQueue(url: string, title: string | null = null, duration: string | null = null): Promise<string> {
 	songID++;
-	const duration = await getVideoSeconds(url);
+
+	if (duration === null) {
+		duration = await getVideoSeconds(url);
+	}
 
 	if (title === null) {
 		title = await getVideoTitle(url);
@@ -92,7 +95,7 @@ export async function addToQueue(url: string, title: string | null = null): Prom
 }
 
 export async function playlistAddToQueue(playlistID: string, voiceID: string, guildID: string, gateway: DiscordGatewayAdapterCreator, channelId: string) {
-	let playlistVideos: { title: string; url: string }[] = [];
+	let playlistVideos: { title: string, url: string, duration: string }[] = [];
 
 	try {
 		playlistVideos = await YT.getAllPlaylistVideos(playlistID);
@@ -105,20 +108,14 @@ export async function playlistAddToQueue(playlistID: string, voiceID: string, gu
 
 	console.log(`Total videos to process: ${playlistVideos.length}`);
 
-	for (let i = 0; i < playlistVideos.length; i += 5) {
-		const batch = playlistVideos.slice(i, i + 5);
+	await Promise.all(
+		playlistVideos.map(async (video) => {
+			await addToQueue(video.url, video.title, video.duration);
+		})
+	);
 
-		await Promise.all(
-			batch.map(async (video) => {
-				console.log(`Processing: ${video.title}, URL: ${video.url}`);
-				await addToQueue(video.url, video.title);
-			})
-		);
-
-		// Start playing the first 5 songs if not already playing
-		if (!currentlyPlaying) {
-			await play(voiceID, guildID, gateway, channelId);
-		}
+	if (!currentlyPlaying) {
+		await play(voiceID, guildID, gateway, channelId);
 	}
 
 	return "Se han añadido los videos de la playlist a la cola";
