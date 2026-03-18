@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import config from "../config.json" with { type: "json" };
+import config from "../config.json";
 import "dotenv/config";
 
 const openai = new OpenAI({ baseURL: "http://127.0.0.1:1234/v1/", apiKey: process.env.AI_API_KEY });
