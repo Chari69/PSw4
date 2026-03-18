@@ -56,12 +56,12 @@ export async function playlistAddToQueue(playlistID: string, voiceID: string, gu
 
 	console.log(`Total videos to process: ${playlistVideos.length}`);
 
-	playlistVideos.map(async (video) => {
+	for (const video of playlistVideos) {
 		await addToQueue(video.url, video.title, video.duration);
-	})
-
-	if (!currentlyPlaying) {
-		await play(voiceID, guildID, gateway, channelId);
+		
+		if (!currentlyPlaying) {
+			await play(voiceID, guildID, gateway, channelId);
+		}
 	}
 
 	return "Se han añadido los videos de la playlist a la cola";
