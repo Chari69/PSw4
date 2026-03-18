@@ -1,19 +1,22 @@
 import OpenAI from "openai";
-import config from "../config.json";
+import config from "../config.json" with { type: "json" };
 import "dotenv/config";
 
-const openai = new OpenAI({ baseURL: "http://127.0.0.1:1234/v1/", apiKey: process.env.AI_API_KEY });
+const openai = new OpenAI({ 
+	baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/", 
+	apiKey: process.env.AI_API_KEY 
+});
 
 const system = config.ai.system;
 
 export async function askAI(arg: string) {
 	const stream = await openai.chat.completions.create({
-		model: "gemma-3-4b-it",
+		model: "gemini-3-flash-preview",
 		messages: [
 			{ role: "system", content: system },
 			{ role: "user", content: arg },
 		],
-		max_completion_tokens: 256,
+		max_completion_tokens: 512,
 	});
 
 	return stream;

@@ -16,6 +16,7 @@ export class MusicPlayCommand extends Subcommand {
 			subcommands: [
 				{ name: "playlist", chatInputRun: "playPlaylist" },
 				{ name: "song", chatInputRun: "playSong" },
+				{ name: "search", chatInputRun: "playSearch" },
 			],
 		});
 	}
@@ -38,6 +39,12 @@ export class MusicPlayCommand extends Subcommand {
 						.setName("song")
 						.setDescription("Reproduce una cancion a partir de una URL.")
 						.addStringOption((option) => option.setName("url").setDescription("URL de la cancion.").setRequired(true))
+				)
+				.addSubcommand((subcommand) =>
+					subcommand
+						.setName("search")
+						.setDescription("Busca y reproduce una cancion por nombre.")
+						.addStringOption((option) => option.setName("query").setDescription("Nombre de la cancion a buscar.").setRequired(true))
 				)
 		);
 	}
@@ -97,5 +104,38 @@ export class MusicPlayCommand extends Subcommand {
 		const queueAdd = await Music.playlistAddToQueue(url, voiceChannelId, guild.id, guild.voiceAdapterCreator, channelId);
 
 		return interaction.editReply(queueAdd);
+	}
+
+	public async playSearch(interaction: Subcommand.ChatInputCommandInteraction) {
+		await interaction.reply({ content: `Buscando en YouTube...`, flags: MessageFlags.Ephemeral });
+		const msg = await interaction.fetchReply();
+
+		let query = interaction.options.getString("query", true);
+
+		const guild = container.client.guilds.cache.get(interaction.guildId!);
+		const member = guild?.members.cache.get(interaction.user.id);
+
+		if (!interaction.member || !member?.voice.channelId || !guild) {
+			return interaction.editReply("No estas en un canal de voz.");
+		}
+
+		let url = await YT.getFirstVideoLink(query);
+		
+		if (url === "No se han encontrado resultados" || url === "Error al buscar el video") {
+			return msg.edit(url);
+		}
+
+		// Fetch the channel and ensure it's a text-based channel
+		const channelId = interaction.channelId;
+
+		var voiceChannelId: string = member.voice.channelId;
+		console.log(voiceChannelId);
+
+		const queueAdd = await Music.addToQueue(url);
+		interaction.editReply(queueAdd);
+
+		const music = await Music.play(voiceChannelId, guild.id, guild.voiceAdapterCreator, channelId);
+
+		return interaction.editReply({ content: music });
 	}
 }
