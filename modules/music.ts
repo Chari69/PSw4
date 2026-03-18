@@ -124,30 +124,29 @@ export function shuffle() {
 }
 
 export async function join(voiceID: string, guildID: string, gateway: DiscordGatewayAdapterCreator, mode: "play" | "join" = "play"): Promise<VoiceConnection> {
-	const existingConnection = activeConnections.get(guildID);
-	if (existingConnection) {
-		cleanupConnection(guildID);
-	}
+	let connection = activeConnections.get(guildID);
 
-	const connection = joinVoiceChannel({
-		channelId: voiceID,
-		guildId: guildID,
-		adapterCreator: gateway,
-	});
+	if (!connection || connection.joinConfig.channelId !== voiceID) {
+		connection = joinVoiceChannel({
+			channelId: voiceID,
+			guildId: guildID,
+			adapterCreator: gateway,
+		});
 
-	connection.on("error", (error) => {
-		console.error(`Voice connection error in guild ${guildID}:`, error);
-		cleanupConnection(guildID);
-	});
-
-	connection.on("stateChange", (oldState, newState) => {
-		if (newState.status === VoiceConnectionStatus.Disconnected) {
+		connection.on("error", (error) => {
+			console.error(`Voice connection error in guild ${guildID}:`, error);
 			cleanupConnection(guildID);
-		}
-	});
+		});
 
-	activeConnections.set(guildID, connection);
-	connection.subscribe(player);
+		connection.on("stateChange", (oldState, newState) => {
+			if (newState.status === VoiceConnectionStatus.Disconnected) {
+				cleanupConnection(guildID);
+			}
+		});
+
+		activeConnections.set(guildID, connection);
+		connection.subscribe(player);
+	}
 
 	if (mode === "join") {
 		play(voiceID, guildID, gateway);
