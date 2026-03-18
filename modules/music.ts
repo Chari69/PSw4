@@ -108,11 +108,9 @@ export async function playlistAddToQueue(playlistID: string, voiceID: string, gu
 
 	console.log(`Total videos to process: ${playlistVideos.length}`);
 
-	await Promise.all(
-		playlistVideos.map(async (video) => {
-			await addToQueue(video.url, video.title, video.duration);
-		})
-	);
+	playlistVideos.map(async (video) => {
+		await addToQuesue(video.url, video.title, video.duration);
+	})
 
 	if (!currentlyPlaying) {
 		await play(voiceID, guildID, gateway, channelId);
