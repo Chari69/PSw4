@@ -5,7 +5,7 @@ import { execSync } from "child_process";
 import * as Utils from "./modules/utils";
 
 //const version = execSync("git rev-parse HEAD").toString().trim().slice(0, 7);
-execSync(`openssl aes-256-cbc -d -salt -pbkdf2 -iter 100000 -in enc/c.enc -out enc/cookies.txt -pass pass:${process.env.YOUTUBE_COOKIE}`);
+execSync(`openssl aes-256-cbc -d -salt -pbkdf2 -iter 100000 -md sha256 -in enc/c.enc -out enc/cookies.txt -pass env:YOUTUBE_COOKIE`);
 
 const client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildVoiceStates],
