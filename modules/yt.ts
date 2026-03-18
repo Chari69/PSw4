@@ -36,11 +36,11 @@ export async function getFirstVideoLink(searchQuery: string): Promise<string> {
 
 export async function getAllPlaylistVideos(playlistId: string) {
 	const videos: { title: string; url: string; duration: string }[] = [];
-	let nextPageToken: string | undefined = undefined;
+	let nextPageToken: string | null | undefined = undefined;
 
 	try {
 		do {
-			const response = await youtube.playlistItems.list({
+			const response: any = await youtube.playlistItems.list({
 				auth: apiKey,
 				part: ["snippet"],
 				playlistId,
@@ -92,4 +92,50 @@ export function ytLinkParse(link: string, type: "video" | "playlist"): string {
 	}
 
 	return "#invalid";
+}
+
+/**
+ * Get the video details (title and duration) using YouTube API
+ * @param url video url
+ * @returns object with title and duration
+ */
+export async function getVideoDetails(url: string): Promise<{ title: string; duration: string }> {
+	const videoIdMatches = url.match(/(?:v=|\/)([\w-]{11})(?:\?|&|\/|$)/);
+	const videoId = videoIdMatches ? videoIdMatches[1] : "";
+	
+	if (!videoId) throw new Error("URL de YouTube inválida");
+
+	try {
+		const response = await youtube.videos.list({
+			auth: apiKey,
+			part: ["snippet", "contentDetails"],
+			id: [videoId],
+		});
+
+		if (!response.data.items || response.data.items.length === 0) {
+			throw new Error("Video no encontrado");
+		}
+
+		const item = response.data.items[0];
+		const title = item.snippet?.title || "Untitled";
+		const rawDuration = item.contentDetails?.duration || "PT0S";
+
+		// Convert ISO 8601 duration to HH:MM:SS or MM:SS
+		const match = rawDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+		const hours = parseInt(match?.[1] || "0", 10);
+		const minutes = parseInt(match?.[2] || "0", 10);
+		const seconds = parseInt(match?.[3] || "0", 10);
+
+		let formatDuration = "";
+		if (hours > 0) {
+			formatDuration += `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+		} else {
+			formatDuration += `${minutes}:${seconds.toString().padStart(2, "0")}`;
+		}
+
+		return { title, duration: formatDuration };
+	} catch (error) {
+		console.error("YouTube API Error:", error);
+		throw new Error("Error al obtener detalles del video");
+	}
 }

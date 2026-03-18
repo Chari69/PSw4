@@ -22,70 +22,18 @@ let skipDestroy: boolean = false;
 
 const player = createAudioPlayer();
 
-async function executeYtDlp(args: string[]): Promise<string> {
-	return new Promise((resolve, reject) => {
-		const process = spawn("yt-dlp", args);
-		let stdout = "";
-		let stderr = "";
-
-		process.stdout.on("data", (data) => {
-			stdout += data.toString();
-		});
-
-		process.stderr.on("data", (data) => {
-			stderr += data.toString();
-		});
-
-		process.on("close", (code) => {
-			if (code === 0) {
-				resolve(stdout.trim());
-			} else {
-				reject(new Error(`yt-dlp exited with code ${code}: ${stderr}`));
-			}
-		});
-
-		process.on("error", (err) => {
-			reject(err);
-		});
-	});
-}
-
-/**
- * Get the video title
- */
-async function getVideoTitle(url: string): Promise<string> {
-	try {
-		return await executeYtDlp(["--cookies", "./enc/cookies.txt", "--print", "title", url]);
-	} catch (error) {
-		console.error("Error al obtener título:", error);
-		throw new Error("Error al obtener título");
-	}
-}
-
-/**
- * Get the video duration
- * @param url video url
- * @returns video duration in HH:MM:SS format
- * @example 3:40 or 10:03:40
- */
-async function getVideoSeconds(url: string): Promise<string> {
-	try {
-		return await executeYtDlp(["--cookies", "./enc/cookies.txt", "--print", "duration_string", url]);
-	} catch (error) {
-		console.error("Error al obtener duración:", error);
-		throw new Error("Error al obtener duración");
-	}
-}
-
 export async function addToQueue(url: string, title: string | null = null, duration: string | null = null): Promise<string> {
 	songID++;
 
-	if (duration === null) {
-		duration = await getVideoSeconds(url);
-	}
-
-	if (title === null) {
-		title = await getVideoTitle(url);
+	if (duration === null || title === null) {
+		try {
+			const details = await YT.getVideoDetails(url);
+			if (duration === null) duration = details.duration;
+			if (title === null) title = details.title;
+		} catch (error) {
+			console.error("Error al obtener detalles del video:", error);
+			throw new Error("Error al obtener detalles del video");
+		}
 	}
 
 	totalTime += Utils.timeToSeconds(duration);
